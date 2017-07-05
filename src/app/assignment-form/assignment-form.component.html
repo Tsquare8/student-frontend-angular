@@ -1,0 +1,87 @@
+<ol class="breadcrumb">
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/assignment">Assignments</a></li>
+    <li class="active">Manage Assignment</li>
+</ol>
+
+<br/>
+
+<a class="btn btn-primary" routerLink="/assignment">Return to Assignments</a>
+
+<h1>Manage Assignment</h1>
+
+<div [ngClass]="(errorMessage)?'alert alert-danger':'alert alert-success'" role="alert" *ngIf="errorMessage || successMessage">
+    {{errorMessage}} {{successMessage}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form (ngSubmit)="saveAssignment(assignment.assignment_id)"  #assignmentForm="ngForm" class="form-horizontal">
+  <input [(ngModel)]="assignment.assignment_id" #assignment_id="ngModel" type="hidden" name="assignment_id">
+
+  <div class="form-group">
+    <label for="student_id" class="col-sm-2 control-label">Student</label>
+
+    <!--<div class="col-sm-10">
+      <input [(ngModel)]="assignment.student_id" #first_name="ngModel" type="text" class="form-control" id="student_id" name="student_id" placeholder="Student ID" required>-->
+
+      <div class="col-sm-10 btn-group" dropdown keyboardNav="true">
+
+      <!--<form #f="ngForm">-->
+      <select class="form-control" [(ngModel)]="assignment.student_id" name="student_id">        
+        <option value="" disabled>Choose a Student</option>
+        <ng-container *ngFor="let student of students">
+          <option value={{student.student_id}}>{{student.first_name}} {{student.last_name}}</option>
+        </ng-container>
+      </select>
+      <!--</form>-->
+
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="assignment_nbr" class="col-sm-2 control-label">Assignment Number</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="assignment.assignment_nbr" type="text" class="form-control" id="assignment_nbr" name="assignment_nbr"  placeholder="Assignment Number" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="grade_id" class="col-sm-2 control-label">Grade</label>
+
+    <!--<div class="col-sm-10">
+      <input [(ngModel)]="assignment.grade_id" type="text" class="form-control" id="grade_id" name="grade_id" placeholder="Grade ID" required>-->
+
+       <div class="col-sm-10 btn-group" dropdown keyboardNav="true">
+      <!--<form #f="ngForm">-->
+      <select class="form-control" [(ngModel)]="assignment.grade_id" name="grade_id">        
+        <option value="" disabled>Choose a Grade</option>
+        <ng-container *ngFor="let grade of grades">
+          <option value={{grade.grade_id}}>{{grade.grade}}</option>
+        </ng-container>
+      </select>
+
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="class_id" class="col-sm-2 control-label">Class</label>
+
+    <!--<div class="col-sm-10">
+      <input [(ngModel)]="assignment.class_id" type="text" class="form-control" id="class_id" name="class_id" placeholder="Class ID">-->
+
+      <div class="col-sm-10 btn-group" dropdown keyboardNav="true">
+      <!--<form #f="ngForm">-->
+      <select class="form-control" [(ngModel)]="assignment.class_id" name="class_id">        
+        <option value="" disabled>Choose a Class</option>
+        <ng-container *ngFor="let class of classes">
+          <option value={{class.class_id}}>{{class.subject}} {{class.course}}</option>
+        </ng-container>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,89 @@
+
+  
+  <ol class="breadcrumb">
+    <li><a routerLink="/home">Home</a></li>
+    <li class="active">Assignments</li>
+</ol>
+
+<br/>
+
+<div [ngClass]="(errorMessage)?'alert alert-danger':'alert alert-success'" role="alert" *ngIf="errorMessage || successMessage">
+    {{errorMessage}} {{successMessage}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<h2>Assignments</h2>
+
+<a class="btn btn-primary" routerLink="/assignment/add">Add Assignment</a>
+
+<table class="table table-striped table-bordered" id="dataTable" style="width:100%">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Student</th>
+      <th>Assignment Number</th>
+      <th>Grade</th>
+      <th>Class</th>
+      <th>Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let assignment of assignments">
+      <td>{{assignment.assignment_id}}</td>
+
+      <!--<td>{{assignment.student_id}}</td>-->
+
+      <ng-container *ngIf="assignment.student_id; else potato">
+        <ng-container *ngFor="let student of students">
+          <ng-container *ngIf="assignment.student_id == student.student_id">
+            <td>{{student.first_name}} {{student.last_name}}</td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!--The following will only execute when a null value for assignment student id is present-->
+      <ng-template #potato>
+        <td></td>
+      </ng-template>
+
+      <td>{{assignment.assignment_nbr}}</td>
+
+      <!--<td>{{assignment.grade_id}}</td>-->
+      
+      <ng-container *ngIf="assignment.grade_id; else potato">
+        <ng-container *ngFor="let grade of grades">
+          <ng-container *ngIf="assignment.grade_id == grade.grade_id">
+            <td>{{grade.grade}}</td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!--The following will only execute when a null value for assignment grade id is present-->
+      <ng-template #potato>
+        <td></td>
+      </ng-template>
+
+      <!--<td>{{assignment.class_id}}</td>-->
+
+      <ng-container *ngIf="assignment.class_id; else potato">
+        <ng-container *ngFor="let class of classes">
+          <ng-container *ngIf="assignment.class_id == class.class_id">
+            <td>{{class.subject}} {{class.course}}</td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!--The following will only execute when a null value for assignment grade id is present-->
+      <ng-template #potato>
+        <td></td>
+      </ng-template>
+
+      <td class="text-center">
+        <a class="btn btn-primary" [routerLink]="['/assignment/edit/', assignment.assignment_id]">Edit</a>&nbsp;
+        <button (click)="deleteAssignment(assignment.assignment_id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

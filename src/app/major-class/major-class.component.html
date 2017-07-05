@@ -1,0 +1,67 @@
+<ol class="breadcrumb">
+    <li><a routerLink="/home">Home</a></li>
+    <li class="active">Majors Classes</li>
+</ol>
+
+<br/>
+
+<div [ngClass]="(errorMessage)?'alert alert-danger':'alert alert-success'" role="alert" *ngIf="errorMessage || successMessage">
+    {{errorMessage}} {{successMessage}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<h2>Majors Classes</h2>
+
+<a class="btn btn-primary" routerLink="/major_class/add">Add Major Class</a>
+
+<table class="table table-striped table-bordered" id="dataTable" style="width:100%">
+  <thead>
+    <tr>
+      <th>ID</th>
+
+      <th>Major</th>
+      <th>Subject Course</th>
+
+      <th>Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let major_class of majors_classes">
+      <td>{{major_class.major_class_id}}</td>
+
+      <!--<td>{{major_class.major_id}}</td>-->
+      <ng-container *ngIf="major_class.major_id; else potato1">
+        <ng-container *ngFor="let major of majors">
+          <ng-container *ngIf="major.major_id == major_class.major_id">
+            <td>{{major.major}}</td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!--The following will only execute when a null value for major_class major_id is present-->
+      <ng-template #potato1>
+        <td></td>
+      </ng-template>
+
+      <ng-container *ngIf="major_class.class_id; else potato2">
+        <ng-container *ngFor="let c of classes">
+          <ng-container *ngIf="c.class_id == major_class.class_id">
+            <td>{{c.subject}} {{c.course}}</td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <!--The following will only execute when a null value for major_class class_id is present-->
+      <ng-template #potato2>
+        <td></td>
+      </ng-template>
+
+      <td class="text-center">
+        <a class="btn btn-primary" [routerLink]="['/major_class/edit/', major_class.major_class_id]">Edit</a>&nbsp;
+        <button (click)="deleteMajorClass(major_class.major_class_id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

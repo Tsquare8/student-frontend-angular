@@ -1,0 +1,9 @@
+body.notHome {
+    padding-top: 70px;
+  background-image: url(../../assets/images/header_iy.jpg);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+  z-index: -1;
+}

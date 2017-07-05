@@ -17,9 +17,11 @@ export class StudentFormComponent implements OnInit {
 
   student: object = {};
 
-  getRecordForEdit(){
+  majors: any[]; // -- needed to lookup the majors
+
+  getRecordForEdit() {
     this.route.params
-      .switchMap((params: Params) => this.dataService.getRecord("student", +params['id']))
+      .switchMap((params: Params) => this.dataService.getRecord('student', +params['id']))
       .subscribe(student => this.student = student);
   }
 
@@ -29,29 +31,36 @@ export class StudentFormComponent implements OnInit {
     private location: Location
   ) {}
 
+  getMajors() {
+    this.dataService.getRecords('major')
+      .subscribe(
+        majors => this.majors = majors,
+        error => this.errorMessage = < any > error);
+  }
+
   ngOnInit() {
     this.route.params
       .subscribe((params: Params) => {
         (+params['id']) ? this.getRecordForEdit() : null;
       });
-  
+    this.getMajors(); // -- getting majors for the select drop down
   }
 
-  saveStudent(id){
-    if(typeof id === "number"){
-      this.dataService.editRecord("student", this.student, id)
+  saveStudent(id) {
+    if (typeof id === 'number') {
+      this.dataService.editRecord('student', this.student, id)
           .subscribe(
-            student => this.successMessage = "Record updated succesfully",
+            student => this.successMessage = 'Record updated succesfully',
             error =>  this.errorMessage = <any>error);
-    }else{
-      this.dataService.addRecord("student", this.student)
+    }else {
+      this.dataService.addRecord('student', this.student)
           .subscribe(
-            student => this.successMessage = "Record added succesfully",
+            student => this.successMessage = 'Record added succesfully',
             error =>  this.errorMessage = <any>error);
     }
 
     this.student = {};
-    
+
   }
 
 }

@@ -1,0 +1,7 @@
+.jumbotron {
+    background-image: url("../../assets/images/small_college.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  /*padding-bottom: 20px;*/
+}

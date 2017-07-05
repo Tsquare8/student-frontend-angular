@@ -46,6 +46,8 @@ export class DataService {
     addRecord(endpoint: string, record:object): Observable<object> {
         let apiUrl = `${this.baseUrl}${endpoint}`;
         console.log(apiUrl)
+        console.log(record);
+        
         return this.http.post(apiUrl, record)
             .map(this.extractData)
             .catch(this.handleError);
